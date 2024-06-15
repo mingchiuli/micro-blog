@@ -1,5 +1,6 @@
 package org.chiu.micro.blog.provider;
 
+import org.chiu.micro.blog.lang.Result;
 import org.chiu.micro.blog.service.BlogService;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.springframework.validation.annotation.Validated;
@@ -22,14 +23,14 @@ public class BlogProvider {
     private final BlogService blogService;
 
     @GetMapping("/blog/{blogId}")
-    public BlogEntityRpcVo findById(@PathVariable Long blogId) {
-        return blogService.findById(blogId);
+    public Result<BlogEntityRpcVo> findById(@PathVariable Long blogId) {
+        return Result.success(() -> blogService.findById(blogId));
     }
 
     @GetMapping("/blog/{blogId}/{userId}")
-    public BlogEntityRpcVo findByIdAndUserId(@PathVariable(value = "blogId") Long blogId,
-                                             @PathVariable(value = "userId") Long userId) {
-        return blogService.findByIdAndUserId(blogId, userId);
+    public Result<BlogEntityRpcVo> findByIdAndUserId(@PathVariable(value = "blogId") Long blogId,
+                                                     @PathVariable(value = "userId") Long userId) {
+        return Result.success(() -> blogService.findByIdAndUserId(blogId, userId));
     }
 
 }

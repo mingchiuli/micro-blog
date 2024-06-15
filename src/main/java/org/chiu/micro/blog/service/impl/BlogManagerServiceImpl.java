@@ -14,6 +14,7 @@ import org.chiu.micro.blog.constant.BlogOperateMessage;
 import org.chiu.micro.blog.utils.JsonUtils;
 import org.chiu.micro.blog.utils.OssSignUtils;
 import org.chiu.micro.blog.convertor.BlogDeleteVoConvertor;
+import org.chiu.micro.blog.convertor.BlogEntityRpcVoConvertor;
 import org.chiu.micro.blog.convertor.BlogEntityVoConvertor;
 import org.chiu.micro.blog.entity.BlogEntity;
 import org.chiu.micro.blog.dto.UserEntityDto;
@@ -24,6 +25,7 @@ import org.chiu.micro.blog.rpc.OssHttpService;
 import org.chiu.micro.blog.rpc.UserHttpService;
 import org.chiu.micro.blog.service.BlogManagerService;
 import org.chiu.micro.blog.vo.BlogDeleteVo;
+import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.chiu.micro.blog.vo.BlogEntityVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -341,5 +343,19 @@ public class BlogManagerServiceImpl implements BlogManagerService {
             applicationContext.publishEvent(new BlogOperateEvent(this, blogSearchIndexMessage));
         });
 
+    }
+
+    @Override
+    public BlogEntityRpcVo findById(Long blogId) {
+        BlogEntity blogEntity = blogRepository.findById(blogId)
+                .orElseThrow(() -> new MissException(NO_FOUND.getMsg()));
+        return BlogEntityRpcVoConvertor.convert(blogEntity);
+    }
+
+    @Override
+    public BlogEntityRpcVo findByIdAndUserId(Long blogId, Long userId) {
+        BlogEntity blogEntity = blogRepository.findByIdAndUserId(blogId, userId)
+                .orElseThrow(() -> new MissException(NO_FOUND.getMsg()));
+        return BlogEntityRpcVoConvertor.convert(blogEntity);
     }
 }

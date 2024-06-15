@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.chiu.micro.blog.page.PageAdapter;
 import org.chiu.micro.blog.req.BlogEntityReq;
 import org.chiu.micro.blog.vo.BlogDeleteVo;
+import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.chiu.micro.blog.vo.BlogEntityVo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,4 +30,8 @@ public interface BlogManagerService {
     String setBlogToken(Long blogId, Long userId);
 
     void download(HttpServletResponse response);
+
+    BlogEntityRpcVo findById(Long blogId);
+
+    BlogEntityRpcVo findByIdAndUserId(Long blogId, Long userId);
 }

@@ -2,7 +2,13 @@ package org.chiu.micro.blog.lang;
 
 import java.util.function.Supplier;
 
+import org.chiu.micro.blog.exception.MissException;
+
 import lombok.Data;
+
+import static org.chiu.micro.blog.lang.ExceptionMessage.*;
+
+import java.util.Objects;
 
 /**
  * @author mingchiuli
@@ -65,5 +71,12 @@ public class Result<T> {
     public static <T> Result<T> fail(Integer code, String msg, Runnable runnable) {
         runnable.run();
         return fail(code, msg);
+    }
+
+    public T getData() {
+        if (Objects.isNull(data)) {
+            throw new MissException(NO_FOUND.getMsg());
+        }
+        return data;
     }
 }

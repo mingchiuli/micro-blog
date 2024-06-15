@@ -166,7 +166,7 @@ public class BlogServiceImpl implements BlogService {
         originalFilename = Optional.ofNullable(originalFilename)
                 .orElseGet(() -> UUID.randomUUID().toString())
                 .replace(" ", "");
-        UserEntityDto user = userHttpService.findById(userId);
+        UserEntityDto user = userHttpService.findById(userId).getData();
         String objectName = user.getNickname() + "/" + uuid + "-" + originalFilename;
         byte[] imageBytes = image.getBytes();
 

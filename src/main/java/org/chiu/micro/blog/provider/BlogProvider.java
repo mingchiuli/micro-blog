@@ -1,6 +1,6 @@
 package org.chiu.micro.blog.provider;
 
-import org.chiu.micro.blog.service.BlogManagerService;
+import org.chiu.micro.blog.service.BlogService;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,17 +19,17 @@ import lombok.RequiredArgsConstructor;
 @Validated
 public class BlogProvider {
 
-    private final BlogManagerService blogManagerService;
+    private final BlogService blogService;
 
     @GetMapping("/blog/{blogId}")
     public BlogEntityRpcVo findById(@PathVariable Long blogId) {
-        return blogManagerService.findById(blogId);
+        return blogService.findById(blogId);
     }
 
     @GetMapping("/blog/{blogId}/{userId}")
     public BlogEntityRpcVo findByIdAndUserId(@PathVariable(value = "blogId") Long blogId,
                                              @PathVariable(value = "userId") Long userId) {
-        return blogManagerService.findByIdAndUserId(blogId, userId);
+        return blogService.findByIdAndUserId(blogId, userId);
     }
 
 }

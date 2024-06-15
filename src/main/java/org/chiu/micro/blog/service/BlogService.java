@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface BlogManagerService {
+public interface BlogService {
 
     void saveOrUpdate(BlogEntityReq blog, Long userId);
 

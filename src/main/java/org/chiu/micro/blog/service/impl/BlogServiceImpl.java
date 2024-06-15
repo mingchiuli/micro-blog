@@ -23,7 +23,7 @@ import org.chiu.micro.blog.repository.BlogRepository;
 import org.chiu.micro.blog.req.BlogEntityReq;
 import org.chiu.micro.blog.rpc.OssHttpService;
 import org.chiu.micro.blog.rpc.UserHttpService;
-import org.chiu.micro.blog.service.BlogManagerService;
+import org.chiu.micro.blog.service.BlogService;
 import org.chiu.micro.blog.vo.BlogDeleteVo;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.chiu.micro.blog.vo.BlogEntityVo;
@@ -59,7 +59,7 @@ import static org.chiu.micro.blog.lang.ExceptionMessage.*;
 
 @Service
 @RequiredArgsConstructor
-public class BlogManagerServiceImpl implements BlogManagerService {
+public class BlogServiceImpl implements BlogService {
 
 
     private final JsonUtils jsonUtils;

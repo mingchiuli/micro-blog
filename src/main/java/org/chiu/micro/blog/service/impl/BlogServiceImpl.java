@@ -35,7 +35,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -377,7 +376,9 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<Long> findIds(Pageable pageRequest) {
+    public List<Long> findIds(Integer pageNo, Integer pageSize) {
+        var pageRequest = PageRequest.of(pageNo - 1,
+                pageSize);
         return blogRepository.findIds(pageRequest);
     }
 
@@ -392,13 +393,19 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Page<BlogEntityRpcVo> findPage(PageRequest pageRequest) {
+    public PageAdapter<BlogEntityRpcVo> findPage(Integer pageNo, Integer pageSize) {
+        var pageRequest = PageRequest.of(pageNo - 1,
+                pageSize,
+                Sort.by("created").descending());
         Page<BlogEntity> page = blogRepository.findPage(pageRequest);
         return BlogEntityRpcVoConvertor.convert(page);
     }
 
     @Override
-    public Page<BlogEntityRpcVo> findPageByCreatedBetween(PageRequest pageRequest, LocalDateTime start, LocalDateTime end) {
+    public PageAdapter<BlogEntityRpcVo> findPageByCreatedBetween(Integer pageNo, Integer pageSize, LocalDateTime start, LocalDateTime end) {
+        var pageRequest = PageRequest.of(pageNo - 1,
+                pageSize,
+                Sort.by("created").descending());
         Page<BlogEntity> page = blogRepository.findPageByCreatedBetween(pageRequest, start, end);
         return BlogEntityRpcVoConvertor.convert(page);
     }

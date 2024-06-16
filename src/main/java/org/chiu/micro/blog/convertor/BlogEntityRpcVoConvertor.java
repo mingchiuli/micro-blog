@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.chiu.micro.blog.entity.BlogEntity;
+import org.chiu.micro.blog.page.PageAdapter;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
 public class BlogEntityRpcVoConvertor {
 
@@ -45,7 +44,7 @@ public class BlogEntityRpcVoConvertor {
         return out;
     }
 
-    public static Page<BlogEntityRpcVo> convert(Page<BlogEntity> page) {
+    public static PageAdapter<BlogEntityRpcVo> convert(Page<BlogEntity> page) {
         List<BlogEntityRpcVo> out = new ArrayList<>();
         page.getContent().forEach(item -> out.add(BlogEntityRpcVo.builder()
                 .id(item.getId())
@@ -58,7 +57,17 @@ public class BlogEntityRpcVoConvertor {
                 .updated(item.getUpdated())
                 .status(item.getStatus())
                 .build()));
-        Pageable pageable = page.getPageable();
-        return new PageImpl<>(out, pageable, page.getTotalElements());
+        
+        return PageAdapter.<BlogEntityRpcVo>builder()
+                .content(out)
+                .empty(page.isEmpty())
+                .totalElements(page.getTotalElements())
+                .pageNumber(page.getPageable().getPageNumber() + 1)
+                .pageSize(page.getPageable().getPageSize())
+                .first(page.isFirst())
+                .last(page.isLast())
+                .empty(page.isEmpty())
+                .totalPages(page.getTotalPages())
+                .build();
     }
 }

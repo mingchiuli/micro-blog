@@ -4,11 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.chiu.micro.blog.lang.Result;
+import org.chiu.micro.blog.page.PageAdapter;
 import org.chiu.micro.blog.service.BlogService;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,12 +55,13 @@ public class BlogProvider {
         return Result.success(blogService::count);
     }
 
-    @PostMapping("/blog/ids")
-    public Result<List<Long>> findIds(@RequestBody Pageable pageRequest) {
-        return Result.success(() -> blogService.findIds(pageRequest));
+    @PostMapping("/blog/{pageNo}/{pageSize}")
+    public Result<List<Long>> findIds(@PathVariable(value = "pageNo") Integer pageNo,
+                                      @PathVariable(value = "pageSize") Integer pageSize) {
+        return Result.success(() -> blogService.findIds(pageNo, pageSize));
     }
 
-    @GetMapping("/blog/{blogId}")
+    @PostMapping("/blog/{blogId}")
     public Result<Void> setReadCount(@PathVariable Long blogId) {
         return Result.success(() -> blogService.setReadCount(blogId));
     }
@@ -72,16 +71,18 @@ public class BlogProvider {
         return Result.success(() -> blogService.findStatusById(blogId));
     }
 
-    @PostMapping("/blog/page")
-    public Result<Page<BlogEntityRpcVo>> findPage(@RequestBody PageRequest pageRequest) {
-        return Result.success(() -> blogService.findPage(pageRequest));
+    @PostMapping("/blog/page/{pageNo}/{pageSize}")
+    public Result<PageAdapter<BlogEntityRpcVo>> findPage(@PathVariable(value = "pageNo") Integer pageNo,
+                                                         @PathVariable(value = "pageSize") Integer pageSize) {
+        return Result.success(() -> blogService.findPage(pageNo, pageSize));
     }
 
-    @PostMapping("/blog/page/year/{start}/{end}")
-    public Result<Page<BlogEntityRpcVo>> findPageByCreatedBetween(@RequestBody PageRequest pageRequest,
-                                                                  @PathVariable(value = "start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-                                                                  @PathVariable(value = "end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end) {
-        return Result.success(() -> blogService.findPageByCreatedBetween(pageRequest, start, end));
+    @PostMapping("/blog/page/year/{pageNo}/{pageSize}/{start}/{end}")
+    public Result<PageAdapter<BlogEntityRpcVo>> findPageByCreatedBetween(@PathVariable(value = "pageNo") Integer pageNo,
+                                                                         @PathVariable(value = "pageSize") Integer pageSize,
+                                                                         @PathVariable(value = "start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                                                         @PathVariable(value = "end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end) {
+        return Result.success(() -> blogService.findPageByCreatedBetween(pageNo, pageSize, start, end));
     }
 
     @GetMapping("/blog/count/{start}/{end}")

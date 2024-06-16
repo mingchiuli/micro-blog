@@ -6,9 +6,6 @@ import org.chiu.micro.blog.req.BlogEntityReq;
 import org.chiu.micro.blog.vo.BlogDeleteVo;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.chiu.micro.blog.vo.BlogEntityVo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -45,15 +42,15 @@ public interface BlogService {
 
     Long count();
 
-    List<Long> findIds(Pageable pageRequest);
+    List<Long> findIds(Integer pageNo, Integer pageSize);
 
     void setReadCount(Long blogId);
 
     Integer findStatusById(Long blogId);
 
-    Page<BlogEntityRpcVo> findPage(PageRequest pageRequest);
+    PageAdapter<BlogEntityRpcVo> findPage(Integer pageNo, Integer pageSize);
 
-    Page<BlogEntityRpcVo> findPageByCreatedBetween(PageRequest pageRequest, LocalDateTime start, LocalDateTime end);
+    PageAdapter<BlogEntityRpcVo> findPageByCreatedBetween(Integer pageNo, Integer pageSize, LocalDateTime start, LocalDateTime end);
 
     Long countByCreatedBetween(LocalDateTime start, LocalDateTime end);
 

@@ -9,6 +9,7 @@ import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.GetExchange;
 
 import lombok.RequiredArgsConstructor;
 
@@ -49,12 +49,12 @@ public class BlogProvider {
 
     @GetMapping("/blog/years")
     public Result<List<Integer>> getYears() {
-        return Result.success(() -> blogService.getYears());
+        return Result.success(blogService::getYears);
     }
 
     @GetMapping("/blog/count")
     public Result<Long> count() {
-        return Result.success(() -> blogService.count());
+        return Result.success(blogService::count);
     }
 
     @PostMapping("/blog/ids")
@@ -79,26 +79,26 @@ public class BlogProvider {
 
     @PostMapping("/blog/page/year/{start}/{end}")
     public Result<Page<BlogEntityRpcVo>> findPageByCreatedBetween(@RequestBody PageRequest pageRequest,
-                                                                  @PathVariable(value = "start") LocalDateTime start,
-                                                                  @PathVariable(value = "end") LocalDateTime end) {
+                                                                  @PathVariable(value = "start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                                                  @PathVariable(value = "end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end) {
         return Result.success(() -> blogService.findPageByCreatedBetween(pageRequest, start, end));
     }
 
     @GetMapping("/blog/count/{start}/{end}")
-    public Result<Long> countByCreatedBetween(@PathVariable(value = "start") LocalDateTime start,
-                                              @PathVariable(value = "end") LocalDateTime end) {
+    public Result<Long> countByCreatedBetween(@PathVariable(value = "start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                              @PathVariable(value = "end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime end) {
         return Result.success(() -> blogService.countByCreatedBetween(start, end));
     }
 
     @GetMapping("/blog/page/count/year/{created}/{start}/{end}")
-    public Result<Long> getPageCountYear(@PathVariable(value = "created") LocalDateTime created,
-                                         @PathVariable(value = "start") LocalDateTime start,
-                                         @PathVariable(value = "end") LocalDateTime end) {
+    public Result<Long> getPageCountYear(@PathVariable(value = "created") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime created,
+                                         @PathVariable(value = "start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                         @PathVariable(value = "end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end) {
         return Result.success(() -> blogService.getPageCountYear(created, start, end));
     }
 
     @GetMapping("/blog/count/until/{created}")
-    public Result<Long> countByCreatedGreaterThanEqual(LocalDateTime created) {
+    public Result<Long> countByCreatedGreaterThanEqual(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime created) {
         return Result.success(() -> blogService.countByCreatedGreaterThanEqual(created));
     }
 }

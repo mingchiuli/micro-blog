@@ -22,7 +22,7 @@ import org.chiu.micro.blog.event.BlogOperateEvent;
 import org.chiu.micro.blog.repository.BlogRepository;
 import org.chiu.micro.blog.req.BlogEntityReq;
 import org.chiu.micro.blog.rpc.OssHttpService;
-import org.chiu.micro.blog.rpc.UserHttpService;
+import org.chiu.micro.blog.rpc.wrapper.UserHttpServiceWrapper;
 import org.chiu.micro.blog.service.BlogService;
 import org.chiu.micro.blog.vo.BlogDeleteVo;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
@@ -65,7 +65,7 @@ public class BlogServiceImpl implements BlogService {
 
     private final JsonUtils jsonUtils;
 
-    private final UserHttpService userHttpService;
+    private final UserHttpServiceWrapper userHttpServiceWrapper;
 
     private final OssHttpService ossHttpService;
 
@@ -167,7 +167,7 @@ public class BlogServiceImpl implements BlogService {
         originalFilename = Optional.ofNullable(originalFilename)
                 .orElseGet(() -> UUID.randomUUID().toString())
                 .replace(" ", "");
-        UserEntityDto user = userHttpService.findById(userId).getData();
+        UserEntityDto user = userHttpServiceWrapper.findById(userId);
         String objectName = user.getNickname() + "/" + uuid + "-" + originalFilename;
         byte[] imageBytes = image.getBytes();
 

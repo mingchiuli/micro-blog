@@ -35,6 +35,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -358,4 +359,64 @@ public class BlogServiceImpl implements BlogService {
                 .orElseThrow(() -> new MissException(NO_FOUND.getMsg()));
         return BlogEntityRpcVoConvertor.convert(blogEntity);
     }
+
+    @Override
+    public List<BlogEntityRpcVo> findAllById(List<Long> ids) {
+        List<BlogEntity> blogEntities = blogRepository.findAllById(ids);
+        return BlogEntityRpcVoConvertor.convert(blogEntities);
+    }
+
+    @Override
+    public List<Integer> getYears() {
+        return blogRepository.getYears();
+    }
+
+    @Override
+    public Long count() {
+        return blogRepository.count();
+    }
+
+    @Override
+    public List<Long> findIds(Pageable pageRequest) {
+        return blogRepository.findIds(pageRequest);
+    }
+
+    @Override
+    public void setReadCount(Long blogId) {
+        blogRepository.setReadCount(blogId);
+    }
+
+    @Override
+    public Integer findStatusById(Long blogId) {
+        return blogRepository.findStatusById(blogId);
+    }
+
+    @Override
+    public Page<BlogEntityRpcVo> findPage(PageRequest pageRequest) {
+        Page<BlogEntity> page = blogRepository.findPage(pageRequest);
+        return BlogEntityRpcVoConvertor.convert(page);
+    }
+
+    @Override
+    public Page<BlogEntityRpcVo> findPageByCreatedBetween(PageRequest pageRequest, LocalDateTime start, LocalDateTime end) {
+        Page<BlogEntity> page = blogRepository.findPageByCreatedBetween(pageRequest, start, end);
+        return BlogEntityRpcVoConvertor.convert(page);
+    }
+
+    @Override
+    public Long countByCreatedBetween(LocalDateTime start, LocalDateTime end) {
+        return blogRepository.countByCreatedBetween(start, end);
+    }
+
+    @Override
+    public Long getPageCountYear(LocalDateTime created, LocalDateTime start, LocalDateTime end) {
+        return blogRepository.getPageCountYear(created, start, end);
+    }
+
+    @Override
+    public Long countByCreatedGreaterThanEqual(LocalDateTime created) {
+        return blogRepository.countByCreatedGreaterThanEqual(created);
+    }
+
+    
 }

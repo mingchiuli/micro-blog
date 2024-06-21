@@ -64,13 +64,13 @@ public class BlogController {
     }
 
     @GetMapping("/recover/{idx}/{userId}")
-    public Result<Void> recoverDeletedBlog(@PathVariable(value = "idx") Integer idx, 
+    public Result<Void> recoverDeletedBlog(@PathVariable(value = "idx") Integer idx,
                                            @PathVariable(value = "userId") Long userId) {
         return Result.success(() -> blogService.recoverDeletedBlog(idx, userId));
     }
 
     @PostMapping("/oss/upload/{userId}")
-    public Result<String> uploadOss(@RequestParam MultipartFile image, 
+    public Result<String> uploadOss(@RequestParam MultipartFile image,
                                     @PathVariable Long userId) {
         return Result.success(() -> blogService.uploadOss(image, userId));
     }

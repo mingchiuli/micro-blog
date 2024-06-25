@@ -1,6 +1,9 @@
 package org.chiu.micro.blog.rpc.wrapper;
 
+import static org.chiu.micro.blog.lang.ExceptionMessage.*;
+
 import org.chiu.micro.blog.dto.UserEntityDto;
+import org.chiu.micro.blog.exception.MissException;
 import org.chiu.micro.blog.lang.Result;
 import org.chiu.micro.blog.rpc.UserHttpService;
 import org.springframework.stereotype.Component;
@@ -15,6 +18,9 @@ public class UserHttpServiceWrapper {
 
     public UserEntityDto findById(Long userId) {
         Result<UserEntityDto> result = userHttpService.findById(userId);
+        if (result.getCode() != 200) {
+            throw new MissException(NO_FOUND.getMsg());
+        }
         return result.getData();
     }
 }

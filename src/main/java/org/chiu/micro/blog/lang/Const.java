@@ -19,20 +19,7 @@ public enum Const {
 
     READ_TOKEN("read_token:"),
 
-    BLOG_STATUS("blog_status"),
-
-    CONSUME_MONITOR("consume:"),
-
-    BLOOM_FILTER_BLOG("bloom_filter_blog"),
-
-    BLOOM_FILTER_BLOG_STATUS("bloom_filter_blog_status"),
-
-    BLOOM_FILTER_PAGE("bloom_filter_page"),
-
-    BLOOM_FILTER_YEAR_PAGE("bloom_filter_page_"),
-
-    BLOOM_FILTER_YEARS("bloom_filter_years");
-
+    CONSUME_MONITOR("consume:");
 
 
     private final String info;

@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -46,7 +47,7 @@ public class BlogEntity {
     @Column(name = "content", length = 65535)
     private String content;
 
-    @Column(name = "created")
+    @Column(name = "created", updatable = false)
     @CreatedDate
     private LocalDateTime created;
 

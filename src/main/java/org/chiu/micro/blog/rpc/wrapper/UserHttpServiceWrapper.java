@@ -1,6 +1,6 @@
 package org.chiu.micro.blog.rpc.wrapper;
 
-import static org.chiu.micro.blog.lang.ExceptionMessage.*;
+import static org.chiu.micro.blog.lang.ExceptionMessage.NO_FOUND;
 
 import org.chiu.micro.blog.dto.UserEntityDto;
 import org.chiu.micro.blog.exception.MissException;

@@ -32,6 +32,7 @@ public class BlogEntityRpcVoConvertor {
         List<BlogEntityRpcVo> out = new ArrayList<>();
         blogEntities.forEach(item -> out.add(BlogEntityRpcVo.builder()
                 .id(item.getId())
+                .title(item.getTitle())
                 .link(item.getLink())
                 .readCount(item.getReadCount())
                 .description(item.getDescription())

@@ -19,7 +19,9 @@ public class CustomRuntimeHints implements RuntimeHintsRegistrar {
         hints.reflection().registerConstructor(ListValueConstraintValidator.class.getDeclaredConstructor(), ExecutableMode.INVOKE);
 
         hints.serialization().registerType(BlogOperateMessage.class);
-        hints.serialization().registerType(Number.class);
+        hints.serialization().registerType(Integer.class);
+        hints.serialization().registerType(Long.class);
+
         // Register resources
         hints.resources().registerPattern("ValidationMessages.properties");
         hints.resources().registerPattern("script/blog-delete.lua");

@@ -7,7 +7,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.chiu.micro.blog.exception.MissException;
 import org.chiu.micro.blog.page.PageAdapter;
 import org.chiu.micro.blog.constant.BlogOperateEnum;
@@ -60,7 +59,6 @@ import static org.chiu.micro.blog.lang.ExceptionMessage.*;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class BlogServiceImpl implements BlogService {
 
     private final JsonUtils jsonUtils;

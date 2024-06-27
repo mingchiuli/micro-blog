@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = RuntimeException.class)
     public Result<String> handler(RuntimeException e) {
-        return Result.fail(e.getMessage(), () -> log.error("runtime exception------------", e.getStackTrace()));
+        return Result.fail(e.getMessage(), () -> log.error("runtime exception------------", e));
     }
 
 }

@@ -46,7 +46,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
 			"""
 				-march=compatibility
 				--gc=serial
-				-R:MaxHeapSize=128m
+				-R:MaxHeapSize=256m
 				-O2
 			""")
 	docker {

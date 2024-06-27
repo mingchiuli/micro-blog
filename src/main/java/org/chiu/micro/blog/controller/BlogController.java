@@ -6,6 +6,7 @@ import org.chiu.micro.blog.vo.BlogDeleteVo;
 import org.chiu.micro.blog.vo.BlogEntityVo;
 import org.chiu.micro.blog.req.BlogEntityReq;
 import org.chiu.micro.blog.req.DeleteBlogsReq;
+import org.chiu.micro.blog.req.ImgUploadReq;
 import org.chiu.micro.blog.lang.Result;
 import org.chiu.micro.blog.page.PageAdapter;
 
@@ -13,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -70,7 +70,7 @@ public class BlogController {
     }
 
     @PostMapping("/oss/upload/{userId}")
-    public Result<String> uploadOss(@RequestParam MultipartFile image,
+    public Result<String> uploadOss(@RequestParam ImgUploadReq image,
                                     @PathVariable Long userId) {
         return Result.success(() -> blogService.uploadOss(image, userId));
     }

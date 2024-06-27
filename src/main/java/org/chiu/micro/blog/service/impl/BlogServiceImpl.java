@@ -22,6 +22,7 @@ import org.chiu.micro.blog.dto.UserEntityDto;
 import org.chiu.micro.blog.event.BlogOperateEvent;
 import org.chiu.micro.blog.repository.BlogRepository;
 import org.chiu.micro.blog.req.BlogEntityReq;
+import org.chiu.micro.blog.req.ImgUploadReq;
 import org.chiu.micro.blog.rpc.OssHttpService;
 import org.chiu.micro.blog.rpc.wrapper.UserHttpServiceWrapper;
 import org.chiu.micro.blog.service.BlogService;
@@ -45,7 +46,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -160,16 +160,16 @@ public class BlogServiceImpl implements BlogService {
 
     @SneakyThrows
     @Override
-    public String uploadOss(MultipartFile image, Long userId) {
-        Assert.notNull(image, UPLOAD_MISS.getMsg());
+    public String uploadOss(ImgUploadReq image, Long userId) {
+        Assert.notNull(image.getData(), UPLOAD_MISS.getMsg());
         String uuid = UUID.randomUUID().toString();
-        String originalFilename = image.getOriginalFilename();
+        String originalFilename = image.getFileName();
         originalFilename = Optional.ofNullable(originalFilename)
                 .orElseGet(() -> UUID.randomUUID().toString())
                 .replace(" ", "");
         UserEntityDto user = userHttpServiceWrapper.findById(userId);
         String objectName = user.getNickname() + "/" + uuid + "-" + originalFilename;
-        byte[] imageBytes = image.getBytes();
+        byte[] imageBytes = image.getData();
 
         Map<String, String> headers = new HashMap<>();
         String gmtDate = ossSignUtils.getGMTDate();

@@ -3,10 +3,10 @@ package org.chiu.micro.blog.service;
 import jakarta.servlet.http.HttpServletResponse;
 import org.chiu.micro.blog.page.PageAdapter;
 import org.chiu.micro.blog.req.BlogEntityReq;
+import org.chiu.micro.blog.req.ImgUploadReq;
 import org.chiu.micro.blog.vo.BlogDeleteVo;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.chiu.micro.blog.vo.BlogEntityVo;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +24,7 @@ public interface BlogService {
 
     void deleteBatch(List<Long> ids, Long userId, List<String> roles);
 
-    String uploadOss(MultipartFile image, Long userId);
+    String uploadOss(ImgUploadReq image, Long userId);
 
     void deleteOss(String url);
 

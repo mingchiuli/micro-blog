@@ -18,7 +18,7 @@ public class CustomRuntimeHints implements RuntimeHintsRegistrar {
         hints.reflection().registerConstructor(LinkedHashSet.class.getDeclaredConstructor(), ExecutableMode.INVOKE);
         hints.reflection().registerConstructor(ListValueConstraintValidator.class.getDeclaredConstructor(), ExecutableMode.INVOKE);
 
-//        hints.serialization().registerType(BlogOperateMessage.class);
+        hints.serialization().registerType(BlogOperateMessage.class);
 
         // Register resources
         hints.resources().registerPattern("ValidationMessages.properties");

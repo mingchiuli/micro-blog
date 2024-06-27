@@ -210,15 +210,8 @@ public class BlogServiceImpl implements BlogService {
         BlogEntity blogEntity;
 
         if (Objects.nonNull(blogId)) {
-            log.info("vvvv:{}", blog);
-            Optional a = blogRepository.findById(blogId);
-            log.info(":vvvv{}", a.get());
-        }
-
-
-        if (Objects.nonNull(blogId)) {
             blogEntity = blogRepository.findById(blogId)
-                    .orElseThrow(() -> new MissException(NO_FOUND));
+                    .orElseThrow(() -> new MissException(NO_FOUND.getMsg()));
             Assert.isTrue(Objects.equals(blogEntity.getUserId(), userId), EDIT_NO_AUTH.getMsg());
         } else {
             blogEntity = BlogEntity.builder()
@@ -332,7 +325,7 @@ public class BlogServiceImpl implements BlogService {
         List<BlogEntity> blogList = new ArrayList<>();
         ids.forEach(id -> {
             BlogEntity blogEntity = blogRepository.findById(id)
-                    .orElseThrow(() -> new MissException(NO_FOUND));
+                    .orElseThrow(() -> new MissException(NO_FOUND.getMsg()));
             if (Boolean.FALSE.equals(Objects.equals(blogEntity.getUserId(), userId)) && !roles.contains(highestRole)) {
                 throw new MissException(DELETE_NO_AUTH.getMsg());
             }

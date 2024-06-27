@@ -35,7 +35,6 @@ public class BlogOperateEventListener {
     @EventListener
     @Async("commonExecutor")
     public void process(BlogOperateEvent event) {
-        log.info("bbbbbbb");
         BlogOperateMessage messageBody = event.getBlogOperateMessage();
         BlogOperateEnum typeEnum = messageBody.getTypeEnum();
         String name = typeEnum.name();
@@ -55,7 +54,5 @@ public class BlogOperateEventListener {
         rabbitTemplate.convertAndSend(CACHE_BLOG_EVICT_EXCHANGE,
                 CACHE_BLOG_EVICT_BINDING_KEY,
                 messageBody);
-        log.info("cccccccc");
-
     }
 }

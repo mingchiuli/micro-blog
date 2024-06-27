@@ -70,7 +70,7 @@ public class BlogController {
     }
 
     @PostMapping("/oss/upload/{userId}")
-    public Result<String> uploadOss(@RequestParam ImgUploadReq image,
+    public Result<String> uploadOss(@RequestBody ImgUploadReq image,
                                     @PathVariable Long userId) {
         return Result.success(() -> blogService.uploadOss(image, userId));
     }

@@ -7,6 +7,7 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.chiu.micro.blog.exception.MissException;
 import org.chiu.micro.blog.page.PageAdapter;
 import org.chiu.micro.blog.constant.BlogOperateEnum;
@@ -59,8 +60,8 @@ import static org.chiu.micro.blog.lang.ExceptionMessage.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BlogServiceImpl implements BlogService {
-
 
     private final JsonUtils jsonUtils;
 
@@ -207,6 +208,13 @@ public class BlogServiceImpl implements BlogService {
     public void saveOrUpdate(BlogEntityReq blog, Long userId) {
         Long blogId = blog.getId();
         BlogEntity blogEntity;
+
+        if (Objects.nonNull(blogId)) {
+            log.info("vvvv:{}", blog);
+            Optional a = blogRepository.findById(blogId);
+            log.info(":vvvv{}", a.get());
+        }
+
 
         if (Objects.nonNull(blogId)) {
             blogEntity = blogRepository.findById(blogId)

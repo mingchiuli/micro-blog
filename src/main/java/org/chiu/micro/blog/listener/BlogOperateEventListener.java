@@ -1,6 +1,7 @@
 package org.chiu.micro.blog.listener;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.chiu.micro.blog.event.BlogOperateEvent;
 import org.chiu.micro.blog.lang.Const;
 import org.chiu.micro.blog.constant.BlogOperateEnum;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class BlogOperateEventListener {
 
     private final RabbitTemplate rabbitTemplate;
@@ -33,6 +35,7 @@ public class BlogOperateEventListener {
     @EventListener
     @Async("commonExecutor")
     public void process(BlogOperateEvent event) {
+        log.info("bbbbbbb");
         BlogOperateMessage messageBody = event.getBlogOperateMessage();
         BlogOperateEnum typeEnum = messageBody.getTypeEnum();
         String name = typeEnum.name();
@@ -52,5 +55,7 @@ public class BlogOperateEventListener {
         rabbitTemplate.convertAndSend(CACHE_BLOG_EVICT_EXCHANGE,
                 CACHE_BLOG_EVICT_BINDING_KEY,
                 messageBody);
+        log.info("cccccccc");
+
     }
 }

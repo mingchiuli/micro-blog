@@ -21,6 +21,7 @@ public class CustomRuntimeHints implements RuntimeHintsRegistrar {
         hints.serialization().registerType(BlogOperateMessage.class);
         hints.serialization().registerType(Integer.class);
         hints.serialization().registerType(Long.class);
+        hints.serialization().registerType(Number.class);
 
         // Register resources
         hints.resources().registerPattern("ValidationMessages.properties");

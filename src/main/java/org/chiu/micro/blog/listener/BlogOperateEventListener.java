@@ -1,7 +1,6 @@
 package org.chiu.micro.blog.listener;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.chiu.micro.blog.event.BlogOperateEvent;
 import org.chiu.micro.blog.lang.Const;
 import org.chiu.micro.blog.constant.BlogOperateEnum;
@@ -17,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class BlogOperateEventListener {
 
     private final RabbitTemplate rabbitTemplate;

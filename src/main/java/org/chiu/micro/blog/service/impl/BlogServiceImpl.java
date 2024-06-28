@@ -7,6 +7,8 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+
 import org.chiu.micro.blog.exception.MissException;
 import org.chiu.micro.blog.page.PageAdapter;
 import org.chiu.micro.blog.constant.BlogOperateEnum;
@@ -59,6 +61,7 @@ import static org.chiu.micro.blog.lang.ExceptionMessage.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BlogServiceImpl implements BlogService {
 
     private final JsonUtils jsonUtils;
@@ -346,6 +349,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogEntityRpcVo findById(Long blogId) {
+        log.info("id为{}", blogId);
         BlogEntity blogEntity = blogRepository.findById(blogId)
                 .orElseThrow(() -> new MissException(NO_FOUND.getMsg()));
         return BlogEntityRpcVoConvertor.convert(blogEntity);

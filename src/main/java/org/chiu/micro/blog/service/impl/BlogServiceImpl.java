@@ -219,7 +219,7 @@ public class BlogServiceImpl implements BlogService {
         }
 
         BeanUtils.copyProperties(blog, blogEntity);
-        BlogEntity saved = blogRepository.saveAndFlush(blogEntity);
+        BlogEntity saved = blogRepository.save(blogEntity);
 
         // 通知消息给mq,更新并删除缓存
         // 防止重复消费

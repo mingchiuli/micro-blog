@@ -61,7 +61,6 @@ import static org.chiu.micro.blog.lang.ExceptionMessage.*;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class BlogServiceImpl implements BlogService {
 
     private final JsonUtils jsonUtils;

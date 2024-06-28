@@ -349,7 +349,6 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogEntityRpcVo findById(Long blogId) {
-        log.info("id为{}", blogId);
         BlogEntity blogEntity = blogRepository.findById(blogId)
                 .orElseThrow(() -> new MissException(NO_FOUND.getMsg()));
         return BlogEntityRpcVoConvertor.convert(blogEntity);

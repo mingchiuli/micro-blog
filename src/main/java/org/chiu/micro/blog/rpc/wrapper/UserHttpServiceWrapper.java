@@ -1,6 +1,5 @@
 package org.chiu.micro.blog.rpc.wrapper;
 
-import static org.chiu.micro.blog.lang.ExceptionMessage.NO_FOUND;
 
 import org.chiu.micro.blog.dto.UserEntityDto;
 import org.chiu.micro.blog.exception.MissException;
@@ -19,7 +18,7 @@ public class UserHttpServiceWrapper {
     public UserEntityDto findById(Long userId) {
         Result<UserEntityDto> result = userHttpService.findById(userId);
         if (result.getCode() != 200) {
-            throw new MissException(NO_FOUND.getMsg());
+            throw new MissException(result.getMsg());
         }
         return result.getData();
     }

@@ -2,7 +2,6 @@ package org.chiu.micro.blog.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.chiu.micro.blog.event.BlogOperateEvent;
-import org.chiu.micro.blog.constant.BlogOperateEnum;
 import org.chiu.micro.blog.constant.BlogOperateMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.event.EventListener;

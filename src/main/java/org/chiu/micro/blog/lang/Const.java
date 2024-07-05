@@ -17,9 +17,7 @@ public enum Const {
 
     QUERY_DELETED("del_blog_user:"),
 
-    READ_TOKEN("read_token:"),
-
-    CONSUME_MONITOR("consume:");
+    READ_TOKEN("read_token:");
 
 
     private final String info;

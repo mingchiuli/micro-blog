@@ -31,7 +31,6 @@ public class BlogOperateEventListener {
         BlogOperateEnum typeEnum = messageBody.getTypeEnum();
         String name = typeEnum.name();
         Long blogId = messageBody.getBlogId();
-        String key = name + "_" + blogId;
 
         rabbitTemplate.convertAndSend(ES_EXCHANGE,
                 ES_BINDING_KEY,

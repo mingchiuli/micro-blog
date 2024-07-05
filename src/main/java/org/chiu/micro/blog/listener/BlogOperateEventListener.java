@@ -28,9 +28,6 @@ public class BlogOperateEventListener {
     @Async("commonExecutor")
     public void process(BlogOperateEvent event) {
         BlogOperateMessage messageBody = event.getBlogOperateMessage();
-        BlogOperateEnum typeEnum = messageBody.getTypeEnum();
-        String name = typeEnum.name();
-        Long blogId = messageBody.getBlogId();
 
         rabbitTemplate.convertAndSend(ES_EXCHANGE,
                 ES_BINDING_KEY,

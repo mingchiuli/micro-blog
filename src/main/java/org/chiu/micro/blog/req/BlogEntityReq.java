@@ -24,9 +24,11 @@ public class BlogEntityReq {
     @NotBlank(message = "内容不能为空")
     private String content;
 
-    @ListValue(values = {0,1})
+    @ListValue(values = {0,1,2})
     private Integer status;
 
     @URL
     private String link;
+
+    private String sensitiveContentList;
 }

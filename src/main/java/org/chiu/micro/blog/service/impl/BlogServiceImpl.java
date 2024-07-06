@@ -18,6 +18,7 @@ import org.chiu.micro.blog.convertor.BlogDeleteVoConvertor;
 import org.chiu.micro.blog.convertor.BlogEntityRpcVoConvertor;
 import org.chiu.micro.blog.convertor.BlogEntityVoConvertor;
 import org.chiu.micro.blog.entity.BlogEntity;
+import org.chiu.micro.blog.entity.BlogSensitiveContentEntity;
 import org.chiu.micro.blog.dto.UserEntityDto;
 import org.chiu.micro.blog.event.BlogOperateEvent;
 import org.chiu.micro.blog.repository.BlogRepository;
@@ -29,6 +30,7 @@ import org.chiu.micro.blog.service.BlogService;
 import org.chiu.micro.blog.vo.BlogDeleteVo;
 import org.chiu.micro.blog.vo.BlogEntityRpcVo;
 import org.chiu.micro.blog.vo.BlogEntityVo;
+import org.chiu.micro.blog.wrapper.BlogSensitiveWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,6 +81,8 @@ public class BlogServiceImpl implements BlogService {
     private final ObjectMapper objectMapper;
 
     private final ResourceLoader resourceLoader;
+
+    private final BlogSensitiveWrapper blogSensitiveWrapper;
 
     @Value("${blog.highest-role}")
     private String highestRole;
@@ -210,6 +214,7 @@ public class BlogServiceImpl implements BlogService {
     public void saveOrUpdate(BlogEntityReq blog, Long userId) {
         Long blogId = blog.getId();
         BlogEntity blogEntity;
+        Optional<BlogSensitiveContentEntity> blogSensitiveContentEntity = Optional.empty();
 
         if (Objects.nonNull(blogId)) {
             blogEntity = blogRepository.findById(blogId)
@@ -223,7 +228,16 @@ public class BlogServiceImpl implements BlogService {
         }
 
         BeanUtils.copyProperties(blog, blogEntity);
-        BlogEntity saved = blogRepository.save(blogEntity);
+        
+        String sensitiveContentList = blog.getSensitiveContentList();
+        if (StringUtils.hasLength(sensitiveContentList)) {
+            blogSensitiveContentEntity = Optional.of(BlogSensitiveContentEntity.builder()
+                    .blogId(blogId)
+                    .sensitiveContentList(sensitiveContentList)
+                    .build());
+        }
+
+        BlogEntity saved = blogSensitiveWrapper.saveOrUpdate(blogEntity, blogSensitiveContentEntity);
 
         // 通知消息给mq,更新并删除缓存
         // 防止重复消费

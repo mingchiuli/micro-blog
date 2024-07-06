@@ -83,7 +83,7 @@ public class BlogServiceImpl implements BlogService {
     @Value("${blog.highest-role}")
     private String highestRole;
 
-    @Value("${blog.token.read-prefix}")
+    @Value("${blog.read.page-prefix}")
     private String readPrefix;
 
     @Qualifier("commonExecutor")

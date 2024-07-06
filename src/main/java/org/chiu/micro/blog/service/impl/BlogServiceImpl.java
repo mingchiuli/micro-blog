@@ -83,6 +83,9 @@ public class BlogServiceImpl implements BlogService {
     @Value("${blog.highest-role}")
     private String highestRole;
 
+    @Value("${blog.token.read-prefix}")
+    private String readPrefix;
+
     @Qualifier("commonExecutor")
     private final ExecutorService taskExecutor;
 
@@ -198,7 +201,7 @@ public class BlogServiceImpl implements BlogService {
         if (Objects.equals(userId, dbUserId)) {
             String token = UUID.randomUUID().toString();
             redisTemplate.opsForValue().set(READ_TOKEN.getInfo() + blogId, token, 24, TimeUnit.HOURS);
-            return token;
+            return readPrefix + blogId + "?token=" + token;
         }
         throw new MissException(USER_MISS.getMsg());
     }

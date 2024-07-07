@@ -1,6 +1,5 @@
 package org.chiu.micro.blog.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.chiu.micro.blog.convertor.BlogSensitiveContentVoConvertor;
@@ -23,12 +22,6 @@ public class BlogSensitiveServiceImpl implements BlogSensitiveService {
         Optional<BlogSensitiveContentEntity> entityOptional = blogSensitiveContentRepository.findByBlogId(blogId);
         BlogSensitiveContentEntity entity = entityOptional.orElseGet(() -> BlogSensitiveContentEntity.builder().build());
         return BlogSensitiveContentVoConvertor.convert(entity);
-    }
-
-    @Override
-    public List<BlogSensitiveContentVo> findByBlogId(List<Long> blogIds) {
-        List<BlogSensitiveContentEntity> entities = blogSensitiveContentRepository.findByBlogIdIn(blogIds);
-        return BlogSensitiveContentVoConvertor.convert(entities);
     }
   
 }

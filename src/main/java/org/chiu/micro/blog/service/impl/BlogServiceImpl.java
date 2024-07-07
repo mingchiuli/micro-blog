@@ -56,6 +56,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.chiu.micro.blog.lang.Const.*;
 import static org.chiu.micro.blog.lang.ExceptionMessage.*;
@@ -229,11 +230,11 @@ public class BlogServiceImpl implements BlogService {
 
         BeanUtils.copyProperties(blog, blogEntity);
         
-        String sensitiveContentList = blog.getSensitiveContentList();
-        if (StringUtils.hasLength(sensitiveContentList)) {
+        List<String> sensitiveContentList = blog.getSensitiveContentList();
+        if (!sensitiveContentList.isEmpty()) {
             blogSensitiveContentEntity = Optional.of(BlogSensitiveContentEntity.builder()
                     .blogId(blogId)
-                    .sensitiveContentList(sensitiveContentList)
+                    .sensitiveContentList(sensitiveContentList.stream().collect(Collectors.joining(",")))
                     .build());
         }
 

@@ -2,7 +2,9 @@ package org.chiu.micro.blog.req;
 
 import org.chiu.micro.blog.vaild.ListValue;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import java.util.List;
 
 import org.hibernate.validator.constraints.URL;
 
@@ -30,5 +32,6 @@ public class BlogEntityReq {
     @URL
     private String link;
 
-    private String sensitiveContentList;
+    @NotNull
+    private List<String> sensitiveContentList;
 }

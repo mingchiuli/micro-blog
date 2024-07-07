@@ -234,7 +234,9 @@ public class BlogServiceImpl implements BlogService {
         if (!sensitiveContentList.isEmpty()) {
             blogSensitiveContentEntity = Optional.of(BlogSensitiveContentEntity.builder()
                     .blogId(blogId)
-                    .sensitiveContentList(sensitiveContentList.stream().collect(Collectors.joining(",")))
+                    .sensitiveContentList(sensitiveContentList.stream()
+                            .distinct()
+                            .collect(Collectors.joining(",")))
                     .build());
         }
 

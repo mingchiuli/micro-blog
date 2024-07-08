@@ -12,6 +12,7 @@ import org.chiu.micro.blog.exception.MissException;
 import org.chiu.micro.blog.page.PageAdapter;
 import org.chiu.micro.blog.constant.BlogOperateEnum;
 import org.chiu.micro.blog.constant.BlogOperateMessage;
+import org.chiu.micro.blog.repository.BlogSensitiveContentRepository;
 import org.chiu.micro.blog.utils.JsonUtils;
 import org.chiu.micro.blog.utils.OssSignUtils;
 import org.chiu.micro.blog.convertor.BlogDeleteVoConvertor;
@@ -84,6 +85,8 @@ public class BlogServiceImpl implements BlogService {
     private final ResourceLoader resourceLoader;
 
     private final BlogSensitiveWrapper blogSensitiveWrapper;
+
+    private final BlogSensitiveContentRepository blogSensitiveContentRepository;
 
     @Value("${blog.highest-role}")
     private String highestRole;
@@ -240,7 +243,12 @@ public class BlogServiceImpl implements BlogService {
                     .build();
         }
 
-        BlogEntity saved = blogSensitiveWrapper.saveOrUpdate(blogEntity, blogSensitiveContentEntity);
+
+        Long existedSensitiveId  = blogSensitiveContentRepository.findByBlogId(blogId)
+                .map(BlogSensitiveContentEntity::getId)
+                .orElse(null);
+
+        BlogEntity saved = blogSensitiveWrapper.saveOrUpdate(blogEntity, blogSensitiveContentEntity, existedSensitiveId);
 
         // 通知消息给mq,更新并删除缓存
         // 防止重复消费
@@ -351,7 +359,9 @@ public class BlogServiceImpl implements BlogService {
             blogList.add(blogEntity);
         });
 
-        blogRepository.deleteAllById(ids);
+        List<BlogSensitiveContentEntity> blogSensitiveContent = blogSensitiveContentRepository.findByBlogIdIn(ids);
+        List<Long> sensitiveIds = blogSensitiveContent.stream().map(BlogSensitiveContentEntity::getId).toList();
+        blogSensitiveWrapper.deleteByIds(ids, sensitiveIds);
 
         blogList.forEach(blogEntity -> {
             Long id = blogEntity.getId();

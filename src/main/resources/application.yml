@@ -18,6 +18,7 @@ spring:
     open-in-view: false
     properties:
       hibernate:
+        format_sql: true
         hbm2ddl:
           auto: update
   rabbitmq:

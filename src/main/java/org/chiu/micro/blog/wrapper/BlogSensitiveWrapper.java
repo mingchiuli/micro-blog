@@ -26,11 +26,9 @@ public class BlogSensitiveWrapper {
     public BlogEntity saveOrUpdate(BlogEntity blog, BlogSensitiveContentEntity blogSensitiveContentEntity) {
         BlogEntity savedBlogEntity = blogRepository.save(blog);
         Optional<BlogSensitiveContentEntity> existedSensitiveEntity = blogSensitiveContentRepository.findByBlogId(savedBlogEntity.getId());
-        log.info("sss:{}", existedSensitiveEntity);
-        existedSensitiveEntity.ifPresent(entity -> {
-            log.info("lll:{}", entity);
-            blogSensitiveContentRepository.deleteById(entity.getId());
-        });
+        existedSensitiveEntity.ifPresent(entity -> blogSensitiveContentRepository.deleteById(entity.getId()));
+        //hibernate先执行的插入
+        blogSensitiveContentRepository.flush();
         if (Objects.nonNull(blogSensitiveContentEntity)) {
             blogSensitiveContentRepository.save(blogSensitiveContentEntity);
         }

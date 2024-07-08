@@ -27,7 +27,10 @@ public class BlogSensitiveWrapper {
         BlogEntity savedBlogEntity = blogRepository.save(blog);
         Optional<BlogSensitiveContentEntity> existedSensitiveEntity = blogSensitiveContentRepository.findByBlogId(savedBlogEntity.getId());
         log.info("sss:{}", existedSensitiveEntity);
-        existedSensitiveEntity.ifPresent(entity -> blogSensitiveContentRepository.deleteById(entity.getId()));
+        existedSensitiveEntity.ifPresent(entity -> {
+            log.info("lll:{}", entity);
+            blogSensitiveContentRepository.deleteById(entity.getId());
+        });
         if (Objects.nonNull(blogSensitiveContentEntity)) {
             blogSensitiveContentRepository.save(blogSensitiveContentEntity);
         }

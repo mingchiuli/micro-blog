@@ -3,7 +3,6 @@ package org.chiu.micro.blog.wrapper;
 import java.util.List;
 import java.util.Objects;
 
-import lombok.extern.slf4j.Slf4j;
 import org.chiu.micro.blog.entity.BlogEntity;
 import org.chiu.micro.blog.entity.BlogSensitiveContentEntity;
 import org.chiu.micro.blog.repository.BlogRepository;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class BlogSensitiveWrapper {
 
     private final BlogRepository blogRepository;

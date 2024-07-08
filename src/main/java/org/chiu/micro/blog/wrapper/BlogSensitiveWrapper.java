@@ -1,7 +1,9 @@
 package org.chiu.micro.blog.wrapper;
 
+import java.util.Objects;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.chiu.micro.blog.entity.BlogEntity;
 import org.chiu.micro.blog.entity.BlogSensitiveContentEntity;
 import org.chiu.micro.blog.repository.BlogRepository;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class BlogSensitiveWrapper {
 
     private final BlogRepository blogRepository;
@@ -20,11 +23,14 @@ public class BlogSensitiveWrapper {
     private final BlogSensitiveContentRepository blogSensitiveContentRepository;
 
     @Transactional
-    public BlogEntity saveOrUpdate(BlogEntity blog, Optional<BlogSensitiveContentEntity> blogSensitiveContentEntity) {
+    public BlogEntity saveOrUpdate(BlogEntity blog, BlogSensitiveContentEntity blogSensitiveContentEntity) {
         BlogEntity savedBlogEntity = blogRepository.save(blog);
-        Optional<BlogSensitiveContentEntity> existedSensitiveEntity = blogSensitiveContentRepository.findByBlogId(blog.getId());
+        Optional<BlogSensitiveContentEntity> existedSensitiveEntity = blogSensitiveContentRepository.findByBlogId(savedBlogEntity.getId());
+        log.info("sss:{}", existedSensitiveEntity);
         existedSensitiveEntity.ifPresent(entity -> blogSensitiveContentRepository.deleteById(entity.getId()));
-        blogSensitiveContentEntity.ifPresent(entity -> blogSensitiveContentRepository.save(entity));
+        if (Objects.nonNull(blogSensitiveContentEntity)) {
+            blogSensitiveContentRepository.save(blogSensitiveContentEntity);
+        }
         return savedBlogEntity;
     }
 }

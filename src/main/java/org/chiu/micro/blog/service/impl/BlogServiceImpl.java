@@ -215,7 +215,7 @@ public class BlogServiceImpl implements BlogService {
     public void saveOrUpdate(BlogEntityReq blog, Long userId) {
         Long blogId = blog.getId();
         BlogEntity blogEntity;
-        Optional<BlogSensitiveContentEntity> blogSensitiveContentEntity = Optional.empty();
+        BlogSensitiveContentEntity blogSensitiveContentEntity = null;
 
         if (Objects.nonNull(blogId)) {
             blogEntity = blogRepository.findById(blogId)
@@ -232,12 +232,12 @@ public class BlogServiceImpl implements BlogService {
         
         List<String> sensitiveContentList = blog.getSensitiveContentList();
         if (!sensitiveContentList.isEmpty()) {
-            blogSensitiveContentEntity = Optional.of(BlogSensitiveContentEntity.builder()
+            blogSensitiveContentEntity = BlogSensitiveContentEntity.builder()
                     .blogId(blogId)
                     .sensitiveContentList(sensitiveContentList.stream()
                             .distinct()
                             .collect(Collectors.joining(",")))
-                    .build());
+                    .build();
         }
 
         BlogEntity saved = blogSensitiveWrapper.saveOrUpdate(blogEntity, blogSensitiveContentEntity);

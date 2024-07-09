@@ -1,7 +1,5 @@
 package org.chiu.micro.blog.service.impl;
 
-import java.util.Optional;
-
 import org.chiu.micro.blog.convertor.BlogSensitiveContentVoConvertor;
 import org.chiu.micro.blog.entity.BlogSensitiveContentEntity;
 import org.chiu.micro.blog.repository.BlogSensitiveContentRepository;

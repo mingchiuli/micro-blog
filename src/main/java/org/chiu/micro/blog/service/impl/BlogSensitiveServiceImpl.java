@@ -19,8 +19,8 @@ public class BlogSensitiveServiceImpl implements BlogSensitiveService {
 
     @Override
     public BlogSensitiveContentVo findByBlogId(Long blogId) {
-        Optional<BlogSensitiveContentEntity> entityOptional = blogSensitiveContentRepository.findByBlogId(blogId);
-        BlogSensitiveContentEntity entity = entityOptional.orElseGet(() -> BlogSensitiveContentEntity.builder().build());
+        BlogSensitiveContentEntity entity = blogSensitiveContentRepository.findByBlogId(blogId)
+                .orElseGet(() -> BlogSensitiveContentEntity.builder().build());
         return BlogSensitiveContentVoConvertor.convert(entity);
     }
   

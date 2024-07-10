@@ -1,7 +1,6 @@
 package org.chiu.micro.blog.wrapper;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.chiu.micro.blog.entity.BlogEntity;
 import org.chiu.micro.blog.entity.BlogSensitiveContentEntity;

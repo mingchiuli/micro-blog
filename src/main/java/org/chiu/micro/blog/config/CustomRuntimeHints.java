@@ -8,8 +8,8 @@ import org.springframework.aot.hint.*;
 import java.util.LinkedHashSet;
 
 
-@SuppressWarnings("all")
 public class CustomRuntimeHints implements RuntimeHintsRegistrar {
+
     @SneakyThrows
     @Override// Register method for reflection
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {

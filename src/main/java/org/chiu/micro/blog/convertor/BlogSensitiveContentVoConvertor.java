@@ -20,24 +20,4 @@ public class BlogSensitiveContentVoConvertor {
         }
         return BlogSensitiveContentVo.builder().sensitiveContent(new ArrayList<>()).build();
     }
-
-    public static List<BlogSensitiveContentVo> convertBatch(List<BlogSensitiveContentEntity> entities) {
-        var map = new HashMap<Long, List<String>>();
-
-        entities.forEach(item -> {
-            Long blogId = item.getBlogId();
-            map.putIfAbsent(blogId, new ArrayList<>());
-            map.computeIfPresent(blogId, (k, v) -> {
-                v.add(item.getSensitiveContent());
-                return v;
-            });
-        });
-
-        List<BlogSensitiveContentVo> res = new ArrayList<>();
-        map.forEach((k, v) -> res.add(BlogSensitiveContentVo.builder()
-                .blogId(k)
-                .sensitiveContent(v)
-                .build()));
-        return res;
-    }
 }

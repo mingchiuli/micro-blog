@@ -21,7 +21,7 @@ import java.util.Objects;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name ="m_blog_sensitive_content",
         indexes = {
-                @Index(columnList = "blog_id", unique = true)})
+                @Index(columnList = "blog_id")})
 public class BlogSensitiveContentEntity {
 
     @Id
@@ -32,8 +32,8 @@ public class BlogSensitiveContentEntity {
     @Column(name = "blog_id")
     private Long blogId;
 
-    @Column(name = "sensitive_content_list", length = 1024)
-    private String sensitiveContentList;
+    @Column(name = "sensitive_content", length = 1024)
+    private String sensitiveContent;
 
     @Column(name = "created", updatable = false)
     @CreatedDate
@@ -54,7 +54,7 @@ public class BlogSensitiveContentEntity {
         if (!Objects.equals(blogId, that.blogId)) return false;
         if (!Objects.equals(created, that.created)) return false;
         if (!Objects.equals(updated, that.updated)) return false;
-        return Objects.equals(sensitiveContentList, that.sensitiveContentList);
+        return Objects.equals(sensitiveContent, that.sensitiveContent);
     }
 
     @Override

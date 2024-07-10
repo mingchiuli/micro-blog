@@ -3,14 +3,14 @@ package org.chiu.micro.blog.vo;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class BlogSensitiveContentVo {
 
-    private Long id;
-
     private Long blogId;
 
-    private String sensitiveContentList;
+    private List<String> sensitiveContent;
 
 }

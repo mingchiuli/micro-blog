@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class BlogSensitiveServiceImpl implements BlogSensitiveService {
@@ -17,9 +19,8 @@ public class BlogSensitiveServiceImpl implements BlogSensitiveService {
 
     @Override
     public BlogSensitiveContentVo findByBlogId(Long blogId) {
-        BlogSensitiveContentEntity entity = blogSensitiveContentRepository.findByBlogId(blogId)
-                .orElseGet(() -> BlogSensitiveContentEntity.builder().build());
-        return BlogSensitiveContentVoConvertor.convert(entity);
+        List<BlogSensitiveContentEntity> entities = blogSensitiveContentRepository.findByBlogId(blogId);
+        return BlogSensitiveContentVoConvertor.convert(entities);
     }
   
 }

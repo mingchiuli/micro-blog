@@ -21,12 +21,18 @@ public class BlogSensitiveWrapper {
     private final BlogSensitiveContentRepository blogSensitiveContentRepository;
 
     @Transactional
-    public BlogEntity saveOrUpdate(BlogEntity blog, BlogSensitiveContentEntity blogSensitiveContentEntity, Long existedSensitiveId) {
+    public BlogEntity saveOrUpdate(BlogEntity blog, List<BlogSensitiveContentEntity> blogSensitiveContentEntityList, List<Long> existedSensitiveIds) {
         BlogEntity savedBlogEntity = blogRepository.save(blog);
-        Optional.ofNullable(existedSensitiveId).ifPresent(id -> blogSensitiveContentRepository.deleteById(id));
-        //hibernate先执行的插入
+
+        if (!existedSensitiveIds.isEmpty()) {
+            blogSensitiveContentRepository.deleteAllById(existedSensitiveIds);
+        }
+        //hibernate似乎先执行的插入
         blogSensitiveContentRepository.flush();
-        Optional.ofNullable(blogSensitiveContentEntity).ifPresent(entity -> blogSensitiveContentRepository.save(entity));
+
+        if (!blogSensitiveContentEntityList.isEmpty()) {
+            blogSensitiveContentRepository.saveAll(blogSensitiveContentEntityList);
+        }
         return savedBlogEntity;
     }
 

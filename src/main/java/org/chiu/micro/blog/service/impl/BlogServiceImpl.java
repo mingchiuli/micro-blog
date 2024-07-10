@@ -57,7 +57,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static org.chiu.micro.blog.lang.Const.*;
 import static org.chiu.micro.blog.lang.ExceptionMessage.*;
@@ -218,7 +217,7 @@ public class BlogServiceImpl implements BlogService {
     public void saveOrUpdate(BlogEntityReq blog, Long userId) {
         Long blogId = blog.getId();
         BlogEntity blogEntity;
-        BlogSensitiveContentEntity blogSensitiveContentEntity = null;
+        List<BlogSensitiveContentEntity> blogSensitiveContentEntityList = new ArrayList<>();
 
         if (Objects.nonNull(blogId)) {
             blogEntity = blogRepository.findById(blogId)
@@ -235,20 +234,26 @@ public class BlogServiceImpl implements BlogService {
         
         List<String> sensitiveContentList = blog.getSensitiveContentList();
         if (!sensitiveContentList.isEmpty()) {
-            blogSensitiveContentEntity = BlogSensitiveContentEntity.builder()
-                    .blogId(blogId)
-                    .sensitiveContentList(sensitiveContentList.stream()
-                            .distinct()
-                            .collect(Collectors.joining(",")))
-                    .build();
+
+            sensitiveContentList = sensitiveContentList.stream()
+                    .distinct()
+                    .toList();
+
+            for (String word : sensitiveContentList) {
+                blogSensitiveContentEntityList.add(BlogSensitiveContentEntity.builder()
+                        .blogId(blogId)
+                        .sensitiveContent(word)
+                        .build());
+            }
         }
 
 
-        Long existedSensitiveId  = blogSensitiveContentRepository.findByBlogId(blogId)
+        List<Long> existedSensitiveIds  = blogSensitiveContentRepository.findByBlogId(blogId)
+                .stream()
                 .map(BlogSensitiveContentEntity::getId)
-                .orElse(null);
+                .toList();
 
-        BlogEntity saved = blogSensitiveWrapper.saveOrUpdate(blogEntity, blogSensitiveContentEntity, existedSensitiveId);
+        BlogEntity saved = blogSensitiveWrapper.saveOrUpdate(blogEntity, blogSensitiveContentEntityList, existedSensitiveIds);
 
         // 通知消息给mq,更新并删除缓存
         // 防止重复消费

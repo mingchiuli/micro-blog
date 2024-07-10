@@ -18,7 +18,7 @@ public class BlogSensitiveContentVoConvertor {
                             .toList())
                     .build();
         }
-        return BlogSensitiveContentVo.builder().build();
+        return BlogSensitiveContentVo.builder().sensitiveContent(new ArrayList<>()).build();
     }
 
     public static List<BlogSensitiveContentVo> convertBatch(List<BlogSensitiveContentEntity> entities) {

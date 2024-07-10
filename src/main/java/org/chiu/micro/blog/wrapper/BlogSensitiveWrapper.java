@@ -26,9 +26,6 @@ public class BlogSensitiveWrapper {
         if (!existedSensitiveIds.isEmpty()) {
             blogSensitiveContentRepository.deleteAllById(existedSensitiveIds);
         }
-        //hibernate似乎先执行的插入
-        blogSensitiveContentRepository.flush();
-
         if (!blogSensitiveContentEntityList.isEmpty()) {
             blogSensitiveContentRepository.saveAll(blogSensitiveContentEntityList);
         }

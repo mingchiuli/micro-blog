@@ -26,5 +26,6 @@ public class CustomRuntimeHints implements RuntimeHintsRegistrar {
         hints.resources().registerPattern("script/hot-blogs.lua");
         hints.resources().registerPattern("script/list-delete.lua");
         hints.resources().registerPattern("script/recover-delete.lua");
+        hints.resources().registerPattern("script/push-all.lua");
     }
 }

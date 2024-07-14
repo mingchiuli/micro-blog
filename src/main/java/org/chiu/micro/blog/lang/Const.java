@@ -17,10 +17,14 @@ public enum Const {
 
     QUERY_DELETED("del_blog_user:"),
 
-    READ_TOKEN("read_token:");
-
+    READ_TOKEN("read_token:"),
+    
+    TEMP_EDIT_BLOG("temp_edit_blog:"),
+    
+    PARAGRAPH_SPLITTER("\n\n"),
+    
+    PARAGRAPH_PREFIX("para::");
 
     private final String info;
-
 }
 

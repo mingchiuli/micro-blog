@@ -462,6 +462,4 @@ public class BlogServiceImpl implements BlogService {
     public Long countByCreatedGreaterThanEqual(LocalDateTime created) {
         return blogRepository.countByCreatedGreaterThanEqual(created);
     }
-
-    
 }

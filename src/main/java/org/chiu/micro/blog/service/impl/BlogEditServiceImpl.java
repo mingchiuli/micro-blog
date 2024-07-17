@@ -43,7 +43,7 @@ import static org.chiu.micro.blog.lang.ExceptionMessage.*;
 
 @Service
 @RequiredArgsConstructor
-public class BlogEidtServiceImpl implements BlogEditService {
+public class BlogEditServiceImpl implements BlogEditService {
 
     private final ObjectMapper objectMapper;
 

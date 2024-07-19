@@ -128,7 +128,7 @@ public class BlogEditServiceImpl implements BlogEditService {
                 if (i != entries.size()) {
                     content.append(PARAGRAPH_SPLITTER.getInfo());
                 }
-                if (i == entries.size() && !StringUtils.hasLength(entries.get(idx))) {
+                if (i != 1 && i == entries.size() && !StringUtils.hasLength(entries.get(idx))) {
                     content.append(PARAGRAPH_SPLITTER.getInfo());
                 }
             }

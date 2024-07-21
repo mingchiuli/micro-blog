@@ -2,6 +2,7 @@ package org.chiu.micro.blog.repository;
 
 import org.chiu.micro.blog.entity.BlogEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -35,12 +36,6 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
     @Transactional
     void setReadCount(Long id);
 
-    @Query(value = "SELECT new BlogEntity from BlogEntity blog")
-    Page<BlogEntity> findPage(Pageable pageRequest);
-
-    @Query(value = "SELECT new BlogEntity from BlogEntity blog where blog.created between :start and :end")
-    Page<BlogEntity> findPageByCreatedBetween(Pageable pageRequest, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
-
     @Query(value = "SELECT DISTINCT(Year(blog.created)) from BlogEntity blog")
     List<Integer> getYears();
 
@@ -55,4 +50,6 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
 
     @Query(value = "SELECT blog.userId from BlogEntity blog where blog.id = ?1")
     Long findUserIdById(Long id);
+
+    Page<BlogEntity> findAllByCreatedBetween(PageRequest pageRequest, LocalDateTime start, LocalDateTime end);
 }

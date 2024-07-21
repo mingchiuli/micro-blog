@@ -437,7 +437,8 @@ public class BlogServiceImpl implements BlogService {
         var pageRequest = PageRequest.of(pageNo - 1,
                 pageSize,
                 Sort.by("created").descending());
-        Page<BlogEntity> page = blogRepository.findPage(pageRequest);
+        
+        Page<BlogEntity> page = blogRepository.findAll(pageRequest);
         log.info(BlogEntityRpcVoConvertor.convert(page).toString());
         return BlogEntityRpcVoConvertor.convert(page);
     }
@@ -447,7 +448,7 @@ public class BlogServiceImpl implements BlogService {
         var pageRequest = PageRequest.of(pageNo - 1,
                 pageSize,
                 Sort.by("created").descending());
-        Page<BlogEntity> page = blogRepository.findPageByCreatedBetween(pageRequest, start, end);
+        Page<BlogEntity> page = blogRepository.findAllByCreatedBetween(pageRequest, start, end);
         return BlogEntityRpcVoConvertor.convert(page);
     }
 

@@ -35,10 +35,10 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
     @Transactional
     void setReadCount(Long id);
 
-    @Query(value = "SELECT new BlogEntity (blog.id, blog.title, blog.description, blog.created, blog.link) from BlogEntity blog")
+    @Query(value = "SELECT new BlogEntity from BlogEntity blog")
     Page<BlogEntity> findPage(Pageable pageRequest);
 
-    @Query(value = "SELECT new BlogEntity (blog.id, blog.title, blog.description, blog.created, blog.link) from BlogEntity blog where blog.created between :start and :end")
+    @Query(value = "SELECT new BlogEntity from BlogEntity blog where blog.created between :start and :end")
     Page<BlogEntity> findPageByCreatedBetween(Pageable pageRequest, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     @Query(value = "SELECT DISTINCT(Year(blog.created)) from BlogEntity blog")

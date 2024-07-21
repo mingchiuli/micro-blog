@@ -7,6 +7,7 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import org.chiu.micro.blog.exception.MissException;
 import org.chiu.micro.blog.page.PageAdapter;
@@ -63,6 +64,7 @@ import static org.chiu.micro.blog.lang.ExceptionMessage.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BlogServiceImpl implements BlogService {
 
     private final JsonUtils jsonUtils;
@@ -436,6 +438,7 @@ public class BlogServiceImpl implements BlogService {
                 pageSize,
                 Sort.by("created").descending());
         Page<BlogEntity> page = blogRepository.findPage(pageRequest);
+        log.info(BlogEntityRpcVoConvertor.convert(page).toString());
         return BlogEntityRpcVoConvertor.convert(page);
     }
 

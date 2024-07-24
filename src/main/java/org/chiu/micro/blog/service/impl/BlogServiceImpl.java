@@ -348,7 +348,6 @@ public class BlogServiceImpl implements BlogService {
         }
 
         BlogEntity tempBlog = jsonUtils.readValue(str, BlogEntity.class);
-        tempBlog.setUpdated(LocalDateTime.now());
         BlogEntity blog = blogRepository.save(tempBlog);
 
         var blogSearchIndexMessage = new BlogOperateMessage(blog.getId(), BlogOperateEnum.CREATE, blog.getCreated().getYear());

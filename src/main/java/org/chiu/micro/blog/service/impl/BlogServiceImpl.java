@@ -309,7 +309,7 @@ public class BlogServiceImpl implements BlogService {
 
         int l = 0;
         for (BlogEntity blog : deletedBlogs) {
-            if (LocalDateTime.now().minusDays(7).isAfter(blog.getCreated())) {
+            if (LocalDateTime.now().minusDays(7).isAfter(blog.getUpdated())) {
                 l++;
             } else {
                 break;
@@ -348,6 +348,7 @@ public class BlogServiceImpl implements BlogService {
         }
 
         BlogEntity tempBlog = jsonUtils.readValue(str, BlogEntity.class);
+        tempBlog.setUpdated(LocalDateTime.now());
         BlogEntity blog = blogRepository.save(tempBlog);
 
         var blogSearchIndexMessage = new BlogOperateMessage(blog.getId(), BlogOperateEnum.CREATE, blog.getCreated().getYear());
@@ -371,12 +372,12 @@ public class BlogServiceImpl implements BlogService {
         blogSensitiveWrapper.deleteByIds(ids, sensitiveIds);
 
         blogList.forEach(blogEntity -> {
-            Long id = blogEntity.getId();
+            blogEntity.setUpdated(LocalDateTime.now());
             redisTemplate.execute(RedisScript.of(blogDeleteScript),
                     Collections.singletonList(QUERY_DELETED.getInfo() + userId),
                     jsonUtils.writeValueAsString(blogEntity), A_WEEK.getInfo());
 
-            var blogSearchIndexMessage = new BlogOperateMessage(id, BlogOperateEnum.REMOVE, blogEntity.getCreated().getYear());
+            var blogSearchIndexMessage = new BlogOperateMessage(blogEntity.getId(), BlogOperateEnum.REMOVE, blogEntity.getCreated().getYear());
             applicationContext.publishEvent(new BlogOperateEvent(this, blogSearchIndexMessage));
         });
 

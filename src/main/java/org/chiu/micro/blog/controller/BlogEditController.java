@@ -25,7 +25,7 @@ public class BlogEditController {
     private final BlogEditService blogEditService;
   
     @PostMapping("/edit/push/all/{userId}")
-    public Result<Void> pullSaveBlog(@RequestBody @PushAllValue BlogEditPushAllReq blog,
+    public Result<Void> pushSaveBlog(@RequestBody @PushAllValue BlogEditPushAllReq blog,
                                      @PathVariable Long userId) {
         return Result.success(() -> blogEditService.pushAll(blog, userId));
     }

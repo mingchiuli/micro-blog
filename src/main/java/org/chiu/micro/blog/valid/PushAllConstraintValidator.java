@@ -51,7 +51,13 @@ public class PushAllConstraintValidator implements ConstraintValidator<PushAllVa
             return false;
         }
 
-        if (!pattern.matcher(blog.getLink()).matches()) {
+        String link = blog.getLink();
+
+        if (Objects.isNull(link)) {
+            return false;
+        }
+
+        if (StringUtils.hasLength(link) && !pattern.matcher(link).matches()) {
             return false;
         }
 

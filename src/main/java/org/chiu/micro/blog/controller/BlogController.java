@@ -2,6 +2,7 @@ package org.chiu.micro.blog.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.chiu.micro.blog.service.BlogService;
+import org.chiu.micro.blog.valid.BlogSaveValue;
 import org.chiu.micro.blog.vo.BlogDeleteVo;
 import org.chiu.micro.blog.vo.BlogEntityVo;
 import org.chiu.micro.blog.req.BlogEntityReq;
@@ -33,7 +34,7 @@ public class BlogController {
     private final BlogService blogService;
 
     @PostMapping("/save/{userId}")
-    public Result<Void> saveOrUpdate(@RequestBody @Valid BlogEntityReq blog, @PathVariable Long userId) {
+    public Result<Void> saveOrUpdate(@RequestBody @BlogSaveValue BlogEntityReq blog, @PathVariable Long userId) {
         return Result.success(() -> blogService.saveOrUpdate(blog, userId));
     }
 

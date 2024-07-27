@@ -1,12 +1,8 @@
 package org.chiu.micro.blog.req;
 
-import org.chiu.micro.blog.vaild.ListValue;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.util.List;
 
-import org.hibernate.validator.constraints.URL;
 
 /**
  * @author mingchiuli
@@ -17,21 +13,15 @@ public class BlogEntityReq {
 
     private Long id;
 
-    @NotBlank(message = "标题不能为空")
     private String title;
 
-    @NotBlank(message = "摘要不能为空")
     private String description;
 
-    @NotBlank(message = "内容不能为空")
     private String content;
 
-    @ListValue(values = {0,1,2})
     private Integer status;
 
-    @URL
     private String link;
 
-    @NotNull
-    private List<String> sensitiveContentList;
+    private List<SensitiveContent> sensitiveContentList;
 }

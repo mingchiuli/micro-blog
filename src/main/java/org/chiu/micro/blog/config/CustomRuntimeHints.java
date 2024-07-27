@@ -2,7 +2,9 @@ package org.chiu.micro.blog.config;
 
 import lombok.SneakyThrows;
 import org.chiu.micro.blog.constant.BlogOperateMessage;
-import org.chiu.micro.blog.vaild.ListValueConstraintValidator;
+import org.chiu.micro.blog.valid.BlogSaveConstraintValidator;
+import org.chiu.micro.blog.valid.ListValueConstraintValidator;
+import org.chiu.micro.blog.valid.PushAllConstraintValidator;
 import org.springframework.aot.hint.*;
 
 import java.util.LinkedHashSet;
@@ -17,6 +19,8 @@ public class CustomRuntimeHints implements RuntimeHintsRegistrar {
     
         hints.reflection().registerConstructor(LinkedHashSet.class.getDeclaredConstructor(), ExecutableMode.INVOKE);
         hints.reflection().registerConstructor(ListValueConstraintValidator.class.getDeclaredConstructor(), ExecutableMode.INVOKE);
+        hints.reflection().registerConstructor(BlogSaveConstraintValidator.class.getDeclaredConstructor(), ExecutableMode.INVOKE);
+        hints.reflection().registerConstructor(PushAllConstraintValidator.class.getDeclaredConstructor(), ExecutableMode.INVOKE);
 
         hints.serialization().registerType(BlogOperateMessage.class);
 

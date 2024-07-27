@@ -26,6 +26,7 @@ import org.chiu.micro.blog.event.BlogOperateEvent;
 import org.chiu.micro.blog.repository.BlogRepository;
 import org.chiu.micro.blog.req.BlogEntityReq;
 import org.chiu.micro.blog.req.ImgUploadReq;
+import org.chiu.micro.blog.req.SensitiveContent;
 import org.chiu.micro.blog.rpc.OssHttpService;
 import org.chiu.micro.blog.rpc.wrapper.UserHttpServiceWrapper;
 import org.chiu.micro.blog.service.BlogService;
@@ -234,21 +235,22 @@ public class BlogServiceImpl implements BlogService {
 
         BeanUtils.copyProperties(blog, blogEntity);
         
-        List<String> sensitiveContentList = blog.getSensitiveContentList();
+        List<SensitiveContent> sensitiveContentList = blog.getSensitiveContentList();
         if (!sensitiveContentList.isEmpty()) {
 
             sensitiveContentList = sensitiveContentList.stream()
                     .distinct()
                     .toList();
 
-            for (String word : sensitiveContentList) {
+            for (var sensitive : sensitiveContentList) {
                 blogSensitiveContentEntityList.add(BlogSensitiveContentEntity.builder()
                         .blogId(blogId)
-                        .sensitiveContent(word)
+                        .sensitiveContent(sensitive.getContent())
+                        .startIndex(sensitive.getStartIndex())
+                        .type(sensitive.getType())
                         .build());
             }
         }
-
 
         List<Long> existedSensitiveIds  = blogSensitiveContentRepository.findByBlogId(blogId)
                 .stream()

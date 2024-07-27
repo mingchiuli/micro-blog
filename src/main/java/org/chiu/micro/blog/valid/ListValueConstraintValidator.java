@@ -1,4 +1,4 @@
-package org.chiu.micro.blog.vaild;
+package org.chiu.micro.blog.valid;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

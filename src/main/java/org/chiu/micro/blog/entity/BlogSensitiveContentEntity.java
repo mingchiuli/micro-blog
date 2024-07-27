@@ -35,6 +35,12 @@ public class BlogSensitiveContentEntity {
     @Column(name = "sensitive_content", length = 1024)
     private String sensitiveContent;
 
+    @Column(name = "start_index")
+    private Integer startIndex;
+
+    @Column(name = "type")
+    private Integer type;
+
     @Column(name = "created", updatable = false)
     @CreatedDate
     private LocalDateTime created;

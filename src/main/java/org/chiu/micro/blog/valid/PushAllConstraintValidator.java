@@ -25,15 +25,15 @@ public class PushAllConstraintValidator implements ConstraintValidator<PushAllVa
     @Override
     public boolean isValid(BlogEditPushAllReq blog, ConstraintValidatorContext context) {
 
-        if (!StringUtils.hasLength(blog.getTitle())) {
+        if (Objects.isNull(blog.getTitle())) {
             return false;
         }
 
-        if (!StringUtils.hasLength(blog.getDescription())) {
+        if (Objects.isNull(blog.getDescription())) {
             return false;
         }
 
-        if (!StringUtils.hasLength(blog.getContent())) {
+        if (Objects.isNull(blog.getContent())) {
             return false;
         }
 

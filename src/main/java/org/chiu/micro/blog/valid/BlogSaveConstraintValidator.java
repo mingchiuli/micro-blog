@@ -47,7 +47,13 @@ public class BlogSaveConstraintValidator implements ConstraintValidator<BlogSave
             return false;
         }
 
-        if (!pattern.matcher(blog.getLink()).matches()) {
+        String link = blog.getLink();
+
+        if (Objects.isNull(link)) {
+            return false;
+        }
+
+        if (StringUtils.hasLength(link) && !pattern.matcher(link).matches()) {
             return false;
         }
 

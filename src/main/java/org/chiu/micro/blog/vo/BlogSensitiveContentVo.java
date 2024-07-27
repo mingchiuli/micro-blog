@@ -11,6 +11,6 @@ public class BlogSensitiveContentVo {
 
     private Long blogId;
 
-    private List<SensitiveContent> sensitiveContent;
+    private List<SensitiveContentVo> sensitiveContent;
 
 }

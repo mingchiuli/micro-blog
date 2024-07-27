@@ -26,5 +26,5 @@ public class BlogEditVo {
 
     private Integer version;
 
-    private List<SensitiveContent> sensitiveContentList;
+    private List<SensitiveContentVo> sensitiveContentList;
 }

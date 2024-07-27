@@ -26,7 +26,7 @@ import org.chiu.micro.blog.event.BlogOperateEvent;
 import org.chiu.micro.blog.repository.BlogRepository;
 import org.chiu.micro.blog.req.BlogEntityReq;
 import org.chiu.micro.blog.req.ImgUploadReq;
-import org.chiu.micro.blog.req.SensitiveContent;
+import org.chiu.micro.blog.req.SensitiveContentReq;
 import org.chiu.micro.blog.rpc.OssHttpService;
 import org.chiu.micro.blog.rpc.wrapper.UserHttpServiceWrapper;
 import org.chiu.micro.blog.service.BlogService;
@@ -235,7 +235,7 @@ public class BlogServiceImpl implements BlogService {
 
         BeanUtils.copyProperties(blog, blogEntity);
         
-        List<SensitiveContent> sensitiveContentList = blog.getSensitiveContentList();
+        List<SensitiveContentReq> sensitiveContentList = blog.getSensitiveContentList();
         if (!sensitiveContentList.isEmpty()) {
 
             sensitiveContentList = sensitiveContentList.stream()

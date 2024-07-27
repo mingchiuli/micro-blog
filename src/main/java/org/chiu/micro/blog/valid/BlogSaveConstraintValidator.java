@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.chiu.micro.blog.lang.SensitiveTypeEnum;
 import org.chiu.micro.blog.lang.StatusEnum;
 import org.chiu.micro.blog.req.BlogEntityReq;
-import org.chiu.micro.blog.req.SensitiveContent;
+import org.chiu.micro.blog.req.SensitiveContentReq;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class BlogSaveConstraintValidator implements ConstraintValidator<BlogSave
             return false;
         }
 
-        List<SensitiveContent> sensitiveContentList = blog.getSensitiveContentList();
+        List<SensitiveContentReq> sensitiveContentList = blog.getSensitiveContentList();
 
         Set<Integer> sensitiveSet = Arrays.stream(SensitiveTypeEnum.values())
                 .map(SensitiveTypeEnum::getCode)

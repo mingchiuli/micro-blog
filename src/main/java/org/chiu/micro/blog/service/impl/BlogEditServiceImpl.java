@@ -17,7 +17,7 @@ import org.chiu.micro.blog.key.KeyFactory;
 import org.chiu.micro.blog.lang.StatusEnum;
 import org.chiu.micro.blog.repository.BlogRepository;
 import org.chiu.micro.blog.req.BlogEditPushAllReq;
-import org.chiu.micro.blog.vo.SensitiveContent;
+import org.chiu.micro.blog.vo.SensitiveContentVo;
 import org.chiu.micro.blog.vo.BlogEditVo;
 import org.chiu.micro.blog.vo.BlogSensitiveContentVo;
 import org.chiu.micro.blog.service.BlogEditService;
@@ -60,7 +60,7 @@ public class BlogEditServiceImpl implements BlogEditService {
 
     private final BlogRepository blogRepository;
 
-    private final TypeReference<List<SensitiveContent>> type = new TypeReference<>() {};
+    private final TypeReference<List<SensitiveContentVo>> type = new TypeReference<>() {};
 
     @PostConstruct
     @SneakyThrows
@@ -104,7 +104,7 @@ public class BlogEditServiceImpl implements BlogEditService {
                 .entries(redisKey);
 
         BlogEntityDto blog;
-        List<SensitiveContent> sensitiveContentList;
+        List<SensitiveContentVo> sensitiveContentList;
         int version = -1;
         String paragraphListString = null;
         if (!entries.isEmpty()) {

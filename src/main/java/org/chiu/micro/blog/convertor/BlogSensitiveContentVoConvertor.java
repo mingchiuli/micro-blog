@@ -3,7 +3,7 @@ package org.chiu.micro.blog.convertor;
 import java.util.*;
 
 import org.chiu.micro.blog.entity.BlogSensitiveContentEntity;
-import org.chiu.micro.blog.vo.SensitiveContent;
+import org.chiu.micro.blog.vo.SensitiveContentVo;
 import org.chiu.micro.blog.vo.BlogSensitiveContentVo;
 
 public class BlogSensitiveContentVoConvertor {
@@ -15,7 +15,7 @@ public class BlogSensitiveContentVoConvertor {
             return BlogSensitiveContentVo.builder()
                     .blogId(entities.getFirst().getBlogId())
                     .sensitiveContent(entities.stream()
-                            .map(item -> SensitiveContent.builder()
+                            .map(item -> SensitiveContentVo.builder()
                                     .type(item.getType())
                                     .startIndex(item.getStartIndex())
                                     .content(item.getSensitiveContent())

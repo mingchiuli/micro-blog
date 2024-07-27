@@ -23,5 +23,5 @@ public class BlogEntityReq {
 
     private String link;
 
-    private List<SensitiveContent> sensitiveContentList;
+    private List<SensitiveContentReq> sensitiveContentList;
 }

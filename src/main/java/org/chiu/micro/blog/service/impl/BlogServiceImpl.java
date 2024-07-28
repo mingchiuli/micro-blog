@@ -26,7 +26,6 @@ import org.chiu.micro.blog.event.BlogOperateEvent;
 import org.chiu.micro.blog.repository.BlogRepository;
 import org.chiu.micro.blog.req.BlogEntityReq;
 import org.chiu.micro.blog.req.ImgUploadReq;
-import org.chiu.micro.blog.req.SensitiveContentReq;
 import org.chiu.micro.blog.rpc.OssHttpService;
 import org.chiu.micro.blog.rpc.wrapper.UserHttpServiceWrapper;
 import org.chiu.micro.blog.service.BlogService;
@@ -113,13 +112,17 @@ public class BlogServiceImpl implements BlogService {
     @PostConstruct
     @SneakyThrows
     private void init() {
-        Resource hotBlogsResource = resourceLoader.getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "script/hot-blogs.lua");
+        Resource hotBlogsResource = resourceLoader
+                .getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "script/hot-blogs.lua");
         hotBlogsScript = hotBlogsResource.getContentAsString(StandardCharsets.UTF_8);
-        Resource blogDeleteResource = resourceLoader.getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "script/blog-delete.lua");
+        Resource blogDeleteResource = resourceLoader
+                .getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "script/blog-delete.lua");
         blogDeleteScript = blogDeleteResource.getContentAsString(StandardCharsets.UTF_8);
-        Resource listDeleteResource = resourceLoader.getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "script/list-delete.lua");
+        Resource listDeleteResource = resourceLoader
+                .getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "script/list-delete.lua");
         listDeleteScript = listDeleteResource.getContentAsString(StandardCharsets.UTF_8);
-        Resource recoverDeleteResource = resourceLoader.getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "script/recover-delete.lua");
+        Resource recoverDeleteResource = resourceLoader
+                .getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "script/recover-delete.lua");
         recoverDeleteScript = recoverDeleteResource.getContentAsString(StandardCharsets.UTF_8);
     }
 
@@ -150,20 +153,20 @@ public class BlogServiceImpl implements BlogService {
 
         for (int i = 0; i < len; i++) {
             if (i == 0) {
-                //[
-                outputStream.write(new byte[]{91});
+                // [
+                outputStream.write(new byte[] { 91 });
             }
 
             byte[] bytes = objectMapper.writeValueAsBytes(blogs[i]);
             outputStream.write(bytes);
             if (i != len - 1) {
-                //,
-                outputStream.write(new byte[]{44});
+                // ,
+                outputStream.write(new byte[] { 44 });
             }
 
             if (i == len - 1) {
-                //]
-                outputStream.write(new byte[]{93});
+                // ]
+                outputStream.write(new byte[] { 93 });
             }
         }
         outputStream.flush();
@@ -220,7 +223,6 @@ public class BlogServiceImpl implements BlogService {
     public void saveOrUpdate(BlogEntityReq blog, Long userId) {
         Long blogId = blog.getId();
         BlogEntity blogEntity;
-        List<BlogSensitiveContentEntity> blogSensitiveContentEntityList = new ArrayList<>();
 
         if (Objects.nonNull(blogId)) {
             blogEntity = blogRepository.findById(blogId)
@@ -234,25 +236,18 @@ public class BlogServiceImpl implements BlogService {
         }
 
         BeanUtils.copyProperties(blog, blogEntity);
-        
-        List<SensitiveContentReq> sensitiveContentList = blog.getSensitiveContentList();
-        if (!sensitiveContentList.isEmpty()) {
 
-            sensitiveContentList = sensitiveContentList.stream()
-                    .distinct()
-                    .toList();
+        List<BlogSensitiveContentEntity> blogSensitiveContentEntityList = blog.getSensitiveContentList().stream()
+                .distinct()
+                .map(item -> BlogSensitiveContentEntity.builder()
+                        .blogId(blog.getId())
+                        .sensitiveContent(item.getContent())
+                        .startIndex(item.getStartIndex())
+                        .type(item.getType())
+                        .build())
+                .toList();
 
-            for (var sensitive : sensitiveContentList) {
-                blogSensitiveContentEntityList.add(BlogSensitiveContentEntity.builder()
-                        .blogId(blogId)
-                        .sensitiveContent(sensitive.getContent())
-                        .startIndex(sensitive.getStartIndex())
-                        .type(sensitive.getType())
-                        .build());
-            }
-        }
-
-        List<Long> existedSensitiveIds  = blogSensitiveContentRepository.findByBlogId(blogId)
+        List<Long> existedSensitiveIds = blogSensitiveContentRepository.findByBlogId(blogId)
                 .stream()
                 .map(BlogSensitiveContentEntity::getId)
                 .toList();
@@ -321,9 +316,9 @@ public class BlogServiceImpl implements BlogService {
         int start = (currentPage - 1) * size;
 
         List<String> resp = Optional.ofNullable(
-                        redisTemplate.execute(RedisScript.of(listDeleteScript, List.class),
-                                Collections.singletonList(QUERY_DELETED.getInfo() + userId),
-                                String.valueOf(l), "-1", String.valueOf(size - 1), String.valueOf(start)))
+                redisTemplate.execute(RedisScript.of(listDeleteScript, List.class),
+                        Collections.singletonList(QUERY_DELETED.getInfo() + userId),
+                        String.valueOf(l), "-1", String.valueOf(size - 1), String.valueOf(start)))
                 .orElseGet(ArrayList::new);
 
         List<String> respList = resp.subList(0, resp.size() - 1);
@@ -340,9 +335,9 @@ public class BlogServiceImpl implements BlogService {
     public void recoverDeletedBlog(Integer idx, Long userId) {
 
         String str = Optional.ofNullable(
-                        redisTemplate.execute(RedisScript.of(recoverDeleteScript, String.class),
-                                Collections.singletonList(QUERY_DELETED.getInfo() + userId),
-                                String.valueOf(idx)))
+                redisTemplate.execute(RedisScript.of(recoverDeleteScript, String.class),
+                        Collections.singletonList(QUERY_DELETED.getInfo() + userId),
+                        String.valueOf(idx)))
                 .orElse("");
 
         if (Boolean.FALSE.equals(StringUtils.hasLength(str))) {
@@ -439,7 +434,7 @@ public class BlogServiceImpl implements BlogService {
         var pageRequest = PageRequest.of(pageNo - 1,
                 pageSize,
                 Sort.by("created").descending());
-        
+
         Page<BlogEntity> page = blogRepository.findAll(pageRequest);
         log.info(BlogEntityRpcVoConvertor.convert(page).toString());
         return BlogEntityRpcVoConvertor.convert(page);

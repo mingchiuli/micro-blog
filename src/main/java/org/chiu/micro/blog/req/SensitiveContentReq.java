@@ -3,11 +3,9 @@ package org.chiu.micro.blog.req;
 import lombok.Builder;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
 @Builder
-public class SensitiveContentReq implements Serializable {
+public class SensitiveContentReq {
 
     private Integer startIndex;
 

@@ -67,7 +67,7 @@ public class BlogSaveConstraintValidator implements ConstraintValidator<BlogSave
                 return false;
             }
 
-            if (!StringUtils.hasLength(sensitive.getContent())) {
+            if (Objects.isNull(sensitive.getEndIndex())) {
                 return false;
             }
 

@@ -11,7 +11,7 @@ public class SensitiveContentVo {
 
     private Integer startIndex;
 
-    private String content;
+    private Integer endIndex;
 
     private Integer type;
 }

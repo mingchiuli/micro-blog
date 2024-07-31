@@ -32,11 +32,11 @@ public class BlogSensitiveContentEntity {
     @Column(name = "blog_id")
     private Long blogId;
 
-    @Column(name = "sensitive_content", length = 1024)
-    private String sensitiveContent;
-
     @Column(name = "start_index")
     private Integer startIndex;
+
+    @Column(name = "end_index")
+    private Integer endIndex;
 
     @Column(name = "type")
     private Integer type;
@@ -60,7 +60,7 @@ public class BlogSensitiveContentEntity {
         if (!Objects.equals(blogId, that.blogId)) return false;
         if (!Objects.equals(created, that.created)) return false;
         if (!Objects.equals(updated, that.updated)) return false;
-        return Objects.equals(sensitiveContent, that.sensitiveContent);
+        return Objects.equals(endIndex, that.endIndex);
     }
 
     @Override

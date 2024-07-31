@@ -18,7 +18,7 @@ public class BlogSensitiveContentVoConvertor {
                             .map(item -> SensitiveContentVo.builder()
                                     .type(item.getType())
                                     .startIndex(item.getStartIndex())
-                                    .content(item.getSensitiveContent())
+                                    .endIndex(item.getEndIndex())
                                     .build())
                             .toList())
                     .build();

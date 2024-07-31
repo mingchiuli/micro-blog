@@ -71,7 +71,7 @@ public class PushAllConstraintValidator implements ConstraintValidator<PushAllVa
                 return false;
             }
 
-            if (!StringUtils.hasLength(sensitive.getContent())) {
+            if (Objects.isNull(sensitive.getEndIndex())) {
                 return false;
             }
 

@@ -241,7 +241,7 @@ public class BlogServiceImpl implements BlogService {
                 .distinct()
                 .map(item -> BlogSensitiveContentEntity.builder()
                         .blogId(blog.getId())
-                        .sensitiveContent(item.getContent())
+                        .endIndex(item.getEndIndex())
                         .startIndex(item.getStartIndex())
                         .type(item.getType())
                         .build())

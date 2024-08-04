@@ -436,7 +436,6 @@ public class BlogServiceImpl implements BlogService {
                 Sort.by("created").descending());
 
         Page<BlogEntity> page = blogRepository.findAll(pageRequest);
-        log.info(BlogEntityRpcVoConvertor.convert(page).toString());
         return BlogEntityRpcVoConvertor.convert(page);
     }
 

@@ -16,15 +16,11 @@ public class BlogOperateEventListener {
 
     private final RabbitTemplate rabbitTemplate;
 
-    private static final String BINDING_KEY_MODE = "blog.change.binding";
-
     @EventListener
     @Async("commonExecutor")
     public void process(BlogOperateEvent event) {
         BlogOperateMessage messageBody = event.getBlogOperateMessage();
 
-        rabbitTemplate.convertAndSend(BlogChangeRabbitConfig.TOPIC_EXCHANGE,
-                BINDING_KEY_MODE,
-                messageBody);
+        rabbitTemplate.convertAndSend(BlogChangeRabbitConfig.FANOUT_EXCHANGE, "", messageBody);
     }
 }

@@ -21,9 +21,7 @@ public class BlogChangeRabbitConfig {
 
     public static final String TOPIC_EXCHANGE = "blog.change.topic.exchange";
 
-    public static final String ES_BINDING_KEY = "blog.change.binding.es";
-
-    public static final String CACHE_BINDING_KEY = "blog.change.binding.cache";
+    public static final String BINDING_KEY = "blog.change.binding";
 
     @Bean("esQueue")
     Queue esQueue() {
@@ -44,19 +42,19 @@ public class BlogChangeRabbitConfig {
     //绑定ES队列和ES交换机
     @Bean("esBinding")
     Binding esBinding(@Qualifier("esQueue") Queue esQueue,
-                      @Qualifier("topicExchange") TopicExchange esExchange) {
+                      @Qualifier("topicExchange") TopicExchange exchange) {
         return BindingBuilder
                 .bind(esQueue)
-                .to(esExchange)
-                .with(ES_BINDING_KEY);
+                .to(exchange)
+                .with(BINDING_KEY);
     }
 
     @Bean("cacheBinding")
     Binding cacheBinding(@Qualifier("cacheQueue") Queue cacheQueue,
-                         @Qualifier("topicExchange") TopicExchange esExchange) {
+                         @Qualifier("topicExchange") TopicExchange exchange) {
         return BindingBuilder
                 .bind(cacheQueue)
-                .to(esExchange)
-                .with(ES_BINDING_KEY);
+                .to(exchange)
+                .with(BINDING_KEY);
     }
 }

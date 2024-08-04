@@ -16,7 +16,7 @@ public class BlogOperateEventListener {
 
     private final RabbitTemplate rabbitTemplate;
 
-    private static final String BINDING_KEY_MODE = "blog.change.binding.#";
+    private static final String BINDING_KEY_MODE = "blog.change.binding";
 
     @EventListener
     @Async("commonExecutor")

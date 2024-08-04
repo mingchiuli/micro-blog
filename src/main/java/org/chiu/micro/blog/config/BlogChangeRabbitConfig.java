@@ -44,7 +44,7 @@ public class BlogChangeRabbitConfig {
     //绑定ES队列和ES交换机
     @Bean("esBinding")
     Binding esBinding(@Qualifier("esQueue") Queue esQueue,
-                    @Qualifier("topicExchange") TopicExchange esExchange) {
+                      @Qualifier("topicExchange") TopicExchange esExchange) {
         return BindingBuilder
                 .bind(esQueue)
                 .to(esExchange)
@@ -53,7 +53,7 @@ public class BlogChangeRabbitConfig {
 
     @Bean("cacheBinding")
     Binding cacheBinding(@Qualifier("cacheQueue") Queue cacheQueue,
-                    @Qualifier("topicExchange") TopicExchange esExchange) {
+                         @Qualifier("topicExchange") TopicExchange esExchange) {
         return BindingBuilder
                 .bind(cacheQueue)
                 .to(esExchange)

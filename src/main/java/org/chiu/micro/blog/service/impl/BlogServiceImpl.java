@@ -60,6 +60,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static org.chiu.micro.blog.lang.Const.*;
+import static org.chiu.micro.blog.lang.StatusEnum.*;
 import static org.chiu.micro.blog.lang.ExceptionMessage.*;
 
 @Service
@@ -345,6 +346,7 @@ public class BlogServiceImpl implements BlogService {
         }
 
         BlogEntity tempBlog = jsonUtils.readValue(str, BlogEntity.class);
+        tempBlog.setStatus(HIDE.getCode());
         BlogEntity blog = blogRepository.save(tempBlog);
 
         var blogSearchIndexMessage = new BlogOperateMessage(blog.getId(), BlogOperateEnum.CREATE, blog.getCreated().getYear());

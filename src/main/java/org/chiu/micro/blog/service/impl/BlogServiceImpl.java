@@ -341,7 +341,7 @@ public class BlogServiceImpl implements BlogService {
                         String.valueOf(idx)))
                 .orElse("");
 
-        if (Boolean.FALSE.equals(StringUtils.hasLength(str))) {
+        if (!StringUtils.hasLength(str)) {
             return;
         }
 
@@ -359,7 +359,7 @@ public class BlogServiceImpl implements BlogService {
         ids.forEach(id -> {
             BlogEntity blogEntity = blogRepository.findById(id)
                     .orElseThrow(() -> new MissException(NO_FOUND.getMsg()));
-            if (Boolean.FALSE.equals(Objects.equals(blogEntity.getUserId(), userId)) && !roles.contains(highestRole)) {
+            if (!Objects.equals(blogEntity.getUserId(), userId) && !roles.contains(highestRole)) {
                 throw new MissException(DELETE_NO_AUTH.getMsg());
             }
             blogList.add(blogEntity);

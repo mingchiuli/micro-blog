@@ -193,7 +193,7 @@ public class BlogServiceImpl implements BlogService {
         headers.put(HttpHeaders.AUTHORIZATION, ossSignUtils.getAuthorization(objectName, HttpMethod.PUT.name(), "image/jpg"));
         headers.put(HttpHeaders.CACHE_CONTROL, "no-cache");
         headers.put(HttpHeaders.CONTENT_TYPE, "image/jpg");
-        ossHttpService.putOssObject(objectName, imageBytes, headers);
+        taskExecutor.submit(() -> ossHttpService.putOssObject(objectName, imageBytes, headers));
         // https://bloglmc.oss-cn-hangzhou.aliyuncs.com/admin/42166d224f4a20a45eca28b691529822730ed0ee.jpeg
         return baseUrl + "/" + objectName;
     }
